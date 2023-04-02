@@ -1,37 +1,27 @@
-const express=require("express")
+const express = require("express");
+const { connection } = require("./db");
+const { UserRouter } = require("./route/user.route");
+const { PostRouter } = require("./route/post.route");
+const { authenticate } = require("./middleware/authenticate.middleware");
+const app = express();
 const cors=require("cors")
-///connection
-const {connection}=require("./db")
-
-// Routers
-const {usersRouter}=require("./router/users.router")
-const {postsRouter}=require("./router/posts.router")
-
-// authantication
-const {auth}=require("./middleware/auth.middleware")
-
-
-const app=express()
-
-app.use(express.json())
-
 app.use(cors())
 
-app.use("/users",usersRouter)
 
-app.use(auth)
+app.use(express.json());
 
-app.use("/posts",auth,postsRouter)
+app.use("/user", UserRouter);
+app.use("/posts", PostRouter);
+app.get("/", (req, res) => {
+  res.send("Home Page");
+});
 
-
-
-
-app.listen(5511,async(res,err)=>{
-    try{
-        await connection
-        
-        console.log("connected to db 5511");
-    }catch(err){
-        console.log(err);
-    }
-})
+app.listen(1111, async () => {
+  try {
+    await connection;
+    console.log("Connected to db");
+  } catch (error) {
+    console.log(error);
+  }
+  console.log("server is running at port 1111");
+});
