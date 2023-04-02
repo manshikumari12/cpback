@@ -7,6 +7,14 @@ const UserRouter = express.Router();
 UserRouter.get("/", (req, res) => {
   res.send("ok");
 });
+UserRouter.get("/alluser",async (req,res)=>{
+  try{
+      const users= await UserModel.find()
+      res.status(200).send(users)
+  }catch(error){
+      res.status(400).send({"msg":error.message})
+  }  
+})
 
 UserRouter.post("/register", async (req, res) => {
   const { name, email, gender, password, age, city , is_married } = req.body;
@@ -34,24 +42,7 @@ UserRouter.post("/register", async (req, res) => {
   }
 });
 
-// UserRouter.post("/login", async (req, res) => {
-//   const { email, password } = req.body;
-//   try {
-//     const user = await UserModel.find({ email });
-//     if (user.length > 0) {
-//       bcrypt.compare(password, user.password, (err, result) => {
-//         if (result) {
-//           const token = jwt.sign({ userId: user[0]._id }, "mannu");
-//           res.send({ msg: "Logged in ", token: token });
-//         }
-//       });
-//     } else {
-//       res.send({ msg: "Wrong credentials" });
-//     }
-//   } catch (error) {
-//     res.send({ msg: "Something went wrong", error: error.message });
-//   }
-// });
+
 
 UserRouter.post("/login", async ( req , res ) => {
   const {email , password}= req.body
