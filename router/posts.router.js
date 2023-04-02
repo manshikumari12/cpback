@@ -9,7 +9,7 @@ const jwt=require("jsonwebtoken")
 
 // postsRouter.get("/",async (req,res)=>{
     
-//     try{
+//     try{nklnnhlkibnk;
         
        
 //         const posts= await PostsModel.find()
